@@ -27,10 +27,8 @@ Notification
         alert('Notification permission granted.');
 
         console.log("Notification permission granted.");
-        return getToken(messaging, { vapidKey: 'BK0INhjt8HhZqLCs6vjk1seBLCmEp3MPpsqaYK5ewqJYbrzEw5NPyPFEvCHhgoNZTSzeOanu6s3tc2j8bXDibq8' })
+        // return getToken(messaging, { vapidKey: 'BK0INhjt8HhZqLCs6vjk1seBLCmEp3MPpsqaYK5ewqJYbrzEw5NPyPFEvCHhgoNZTSzeOanu6s3tc2j8bXDibq8' })
 
-    }).then(function (token) {
-        localStorage.setItem('fcm', token);
     })
     .catch(function (err) {
         alert(JSON.stringify(err));
