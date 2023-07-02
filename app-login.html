@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#000000">
+    <title>Finapp</title>
+    <meta name="description" content="Finapp HTML Mobile Template">
+    <meta name="keywords"
+        content="bootstrap, wallet, banking, fintech mobile template, cordova, phonegap, mobile, html, responsive" />
+    <link rel="icon" type="image/png" href="assets/img/favicon.png" sizes="32x32">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/icon/192x192.png">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="manifest" href="__manifest.json">
+
+</head>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
+
+<body>
+
+    <!-- loader -->
+    <div id="loader">
+        <img src="assets/img/loading-icon.png" alt="icon" class="loading-icon">
+    </div>
+    <!-- * loader -->
+
+    <!-- App Header -->
+    <div class="appHeader no-border transparent position-absolute">
+        <div class="left">
+            <a href="#" class="headerButton goBack">
+                <ion-icon name="chevron-back-outline"></ion-icon>
+            </a>
+        </div>
+        <div class="pageTitle"></div>
+        <div class="right">
+        </div>
+    </div>
+    <!-- * App Header -->
+
+    <!-- App Capsule -->
+    <div id="appCapsule">
+
+        <div class="section mt-2 text-center">
+            <h1>تسجيل الدخول</h1>
+            <h2>{{message}}</h2>
+        </div>
+        <div class="section mb-5 p-2">
+
+            <form>
+                <div class="card">
+                    <div class="card-body pb-1">
+                        <div class="form-group basic">
+                            <div class="input-wrapper">
+                                <label class="label" for="email1">أسم المستخدم</label>
+                                <input v-model="email" type="email" name="username" class="form-control" id="username"
+                                    placeholder="User Name">
+                                <i class="clear-input">
+                                    <ion-icon name="close-circle"></ion-icon>
+                                </i>
+                            </div>
+                        </div>
+
+                        <div class="form-group basic">
+                            <div class="input-wrapper">
+                                <label class="label" for="password1">كلمة المرور</label>
+                                <input v-model="password" type="password" class="form-control" id="password1" autocomplete="off"
+                                    placeholder="Your password">
+                                <i class="clear-input">
+                                    <ion-icon name="close-circle"></ion-icon>
+                                </i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-links mt-2">
+                    <!-- <div>
+                        <a href="app-register.html">Register Now</a>
+                    </div> -->
+                    <!-- <div><a href="app-forgot-password.html" class="text-muted">Forgot Password?</a></div> -->
+                </div>
+
+                <div class="transparent">
+                </div>
+
+            </form>
+            <button @click="auth()" class="btn btn-primary btn-block btn-lg">تسجل الدخول</button>
+
+        </div>
+
+    </div>
+    <!-- * App Capsule -->
+
+
+
+    <!-- ========= JS Files =========  -->
+
+    <script type="module" defer src="assets/js/firebase-notification-init.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="assets/js/lib/bootstrap.bundle.min.js"></script>
+    <!-- Ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <!-- Splide -->
+    <script src="assets/js/plugins/splide/splide.min.js"></script>
+    <!-- Base Js File -->
+    <script src="assets/js/base.js"></script>
+
+    <script type="module" defer>
+        const { createApp } = Vue
+        import axios from './axios.js'
+
+        createApp({
+            data() {
+                return {
+                    email: '',
+                    password: '',
+                }
+            },
+            methods: {
+                auth() {
+                    axios.post('login', {
+                        email: this.email,
+                        password:this.password,
+                        fcm:localStorage.getItem('fcm')
+                    }).then(function (response) {
+                        // handle success
+                        localStorage.setItem('token', response.data.token);
+                        window.location.replace('index.html');
+                        // response.header('Content-Type', 'application/json
+                        // document.cookie = "key1 = value1;key2 = value2;expires = date";
+                    })
+                        .catch(function (error) {
+                            // handle error
+                            console.log(error);
+                        })
+                        .finally(function () {
+                            // always executed
+                        });
+
+                }
+            }
+        }).mount('#appCapsule')
+    </script>
+
+
+</body>
+
+</html>

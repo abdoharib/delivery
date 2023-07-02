@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#000000">
+    <title>Finapp</title>
+    <meta name="description" content="Finapp HTML Mobile Template">
+    <meta name="keywords" content="bootstrap, wallet, banking, fintech mobile template, cordova, phonegap, mobile, html, responsive" />
+    <link rel="icon" type="image/png" href="assets/img/favicon.png" sizes="32x32">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/icon/192x192.png">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="manifest" href="__manifest.json">
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
+</head>
+
+<body class="bg-white">
+
+    <!-- loader -->
+    <div id="loader">
+        <img src="assets/img/loading-icon.png" alt="icon" class="loading-icon">
+    </div>
+    <!-- * loader -->
+
+    <!-- App Header -->
+    <div id="appheader" class="appHeader">
+        <div class="left">
+            <a href="#" class="headerButton goBack">
+                <ion-icon name="chevron-back-outline"></ion-icon>
+            </a>
+        </div>
+        <div class="pageTitle">
+            الأشعارات
+        </div>
+        <div class="right">
+            <a href="app-notifications.html" class="headerButton">
+                <ion-icon class="icon" name="notifications-outline"></ion-icon>
+                <span v-if="unreadNotificationsCount>0" class="badge badge-danger">{{unreadNotificationsCount}}</span>
+            </a>
+        </div>
+    </div>
+    <!-- * App Header -->
+
+    <!-- toast bottom iconed -->
+    <div id="toast-example-1" class="toast-box toast-bottom bg-primary">
+        <div class="in">
+            <ion-icon name="notifications-off-outline"></ion-icon>
+            <div class="text">
+                Notification sounds have been muted
+            </div>
+        </div>
+        <button type="button" class="btn btn-sm btn-text-light close-button">OK</button>
+    </div>
+    <!-- * toast bottom iconed -->
+
+    <!-- App Capsule -->
+    <div  id="appCapsule">
+
+        <div class="section full">
+
+            <ul class="listview image-listview flush">
+                <li v-for="(notification, index) in unreadNotifications" class="">
+                    
+                    <a v-if="notification.data.statut == 'pending'" class="item">
+                        <div class="icon-box ">
+                            <span>📜</span>
+                        </div>
+                        <div class="in">
+                            <div>
+                                <div class="mb-05"><strong>طلبية جديدة</strong></div>
+                                <div class="text-small mb-05">
+                                    {{notification.data.Ref}}
+                                </div>
+                                <div class="text-xsmall">
+                                    {{notification.data.created_at}}
+                                </div>
+                            </div>
+                            <!-- <span class="badge badge-primary badge-empty"></span> -->
+                        </div>
+                    </a>
+
+                    <a v-else-if="notification.data.statut == 'completed'" class="item">
+                        <div class="icon-box ">
+                            <span>✅</span>
+                        </div>
+                        <div class="in">
+                            <div>
+                                <div class="mb-05"><strong>تم أستكمال الطلبية</strong></div>
+                                <div class="text-small mb-05">
+                                    {{notification.data.Ref}}
+                                </div>
+                                <div class="text-xsmall">
+                                    {{notification.data.created_at}}
+                                </div>
+                            </div>
+                            <!-- <span class="badge badge-primary badge-empty"></span> -->
+                        </div>
+                    </a>
+
+                    <a v-else-if="notification.data.statut == 'canceled'"  class="item">
+                        <div class="icon-box ">
+                            <span>❌</span>
+                        </div>
+                        <div class="in">
+                            <div>
+                                <div class="mb-05"><strong>تم ألغاء الطلبية</strong></div>
+                                <div class="text-small mb-05">
+                                    {{notification.data.Ref}}
+                                </div>
+                                <div class="text-xsmall">
+                                    {{notification.data.created_at}}
+                                </div>
+                            </div>
+                            <!-- <span class="badge badge-primary badge-empty"></span> -->
+                        </div>
+                    </a>
+
+                    <a v-else-if="notification.data.statut == 'postponed'"  class="item">
+                        <div class="icon-box ">
+                            <span>📅</span>
+                        </div>
+                        <div class="in">
+                            <div>
+                                <div class="mb-05"><strong>تم تأجيل الطلبية</strong></div>
+                                <div class="text-small mb-05">
+                                    {{notification.data.Ref}}
+                                </div>
+                                <div class="text-xsmall">
+                                    {{notification.data.created_at}}
+                                </div>
+                            </div>
+                            <!-- <span class="badge badge-primary badge-empty"></span> -->
+                        </div>
+                    </a>
+                </li>
+      
+            </ul>
+
+        </div>
+
+    </div>
+    <!-- * App Capsule -->
+
+
+    <!-- App Bottom Menu -->
+    <div class="appBottomMenu">
+        <a href="index.html" class="item">
+            <div class="col">
+                <ion-icon name="cart-outline"></ion-icon>
+                <strong>الطلبيات</strong>
+            </div>
+        </a>
+        <a href="storage.html" class="item">
+            <div class="col">
+                <ion-icon name="document-text-outline"></ion-icon>
+                <strong>المخزون</strong>
+            </div>
+        </a>
+        <a href="app-settings.html" class="item">
+            <div class="col">
+                <ion-icon name="settings-outline"></ion-icon>
+                <strong>الأعدادات</strong>
+            </div>
+        </a>
+    </div>
+    <!-- * App Bottom Menu -->
+
+
+    <!-- ========= JS Files =========  -->
+
+    <script type="module" defer src="assets/js/firebase-notification-init.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="assets/js/lib/bootstrap.bundle.min.js"></script>
+    <!-- Ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <!-- Splide -->
+    <script src="assets/js/plugins/splide/splide.min.js"></script>
+    <!-- Base Js File -->
+    <script src="assets/js/base.js"></script>
+
+    <script type="module" defer>
+        const { createApp } = Vue
+        import axios from './axios.js'
+
+        createApp({
+            data() {
+                return {
+                    unreadNotifications: [],
+                    isNotificationLoading: false,
+
+                    user: null,
+                    isUserLoading: true
+
+                }
+            },
+            methods: {
+                getUser: function () {
+                    this.isUserLoading = true;
+                    axios.get('get_user_auth').then((response) => {
+                        // handle success
+                        this.user = response.data
+                        // localStorage.setItem('token', response.data.token);
+                        // response.header('Content-Type', 'application/json
+                        // document.cookie = "key1 = value1;key2 = value2;expires = date";
+                    })
+                        .catch(function (error) {
+                            // handle error
+                            console.log(error);
+                        })
+                        .finally(() => {
+                            // always executed
+                            this.isUserLoading = false;
+
+                        });
+
+                },
+
+                getUnreadNotification() {
+                    this.unreadNotifications = [];
+                    this.isNotificationLoading = true;
+                    axios.get('unread_notifications', {
+            
+                    }).then((response) => {
+                        // handle success
+                        this.unreadNotifications = response.data
+                        // localStorage.setItem('token', response.data.token);
+                        // response.header('Content-Type', 'application/json
+                        // document.cookie = "key1 = value1;key2 = value2;expires = date";
+
+                        axios.get('read_notifications').then().catch(e=>{
+                            console.log(e);
+                        })
+                    })
+                        .catch(function (error) {
+                            // handle error
+                            console.log(error);
+                        })
+                        .finally(() => {
+                            // always executed
+                            this.isNotificationLoading = false;
+
+                        });
+
+                },
+            
+            },
+            mounted: function () {
+                this.getUnreadNotification();
+                this.getUser();
+
+
+            },
+        }).mount('#appCapsule')
+    
+        createApp({
+            data() {
+                return {
+                    unreadNotificationsCount:0,
+                }
+            },
+            methods: {
+                getUnreadNotificationCount() {
+                    axios.get('unread_notifications_count', {
+            
+                    }).then((response) => {
+                        this.unreadNotificationsCount = response.data
+                    })
+                        .catch(function (error) {
+                            // handle error
+                            console.log(error);
+                        })
+                        .finally(() => {
+                            // always executed
+
+                        });
+                },
+            },
+            mounted: function () {
+                this.getUnreadNotificationCount();
+            },
+        }).mount('#appheader')
+
+    </script>
+
+
+</body>
+
+</html>
