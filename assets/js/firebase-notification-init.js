@@ -20,7 +20,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
 Notification
-    .requestPermission()
+    .requestPermission(function(permission){
+        alert(permission)
+    })
     .then(function () {
         alert('Notification permission granted.');
 
