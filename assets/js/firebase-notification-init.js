@@ -22,6 +22,8 @@ const messaging = getMessaging(app);
 Notification
     .requestPermission()
     .then(function () {
+        alert('Notification permission granted.');
+
         console.log("Notification permission granted.");
         return getToken(messaging, { vapidKey: 'BK0INhjt8HhZqLCs6vjk1seBLCmEp3MPpsqaYK5ewqJYbrzEw5NPyPFEvCHhgoNZTSzeOanu6s3tc2j8bXDibq8' })
 
@@ -29,5 +31,6 @@ Notification
         localStorage.setItem('fcm', token);
     })
     .catch(function (err) {
+        alert(JSON.stringify(err));
         console.log("Unable to get permission to notify.", err);
     });
