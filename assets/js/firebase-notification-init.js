@@ -19,7 +19,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
-Notification
+try {
+    Notification
     .requestPermission(function(permission){
         alert(permission)
     })
@@ -33,4 +34,7 @@ Notification
     .catch(function (err) {
         alert(JSON.stringify(err));
         console.log("Unable to get permission to notify.", err);
-    });
+    });    
+} catch (error) {
+    alert(error);
+}
