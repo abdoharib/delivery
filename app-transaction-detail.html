@@ -93,7 +93,12 @@
                         </li>
                         <li class="px-4">
                             <strong>رقم الهاتف</strong>
-                            <strong class="badge badge-dark fs-6 fw-bold p-2">{{order.sale.client_phone}}</strong>
+                            <div></div>
+                            <a :href=" 'tel:'+order.sale.client_phone" class="btn btn-dark fs-6 fw-bold p-2" style="box-shadow: 2px 2px 2px black;">
+                                
+                                <span class="m-1">{{order.sale.client_phone}}</span>
+                                <ion-icon class="mr-3 pr-3" name="call"></ion-icon>
+                            </a>
                         </li>
                         <li class="px-4">
                             <strong>العنوان</strong>
@@ -203,7 +208,10 @@
             <div class="modal fade fade " id="confirmDeliveryDialog" data-bs-backdrop="static" tabindex="-1" role="dialog">
                 <div class="modal-dialog modal-lg " role="document">
                     <div class="modal-content">
-            
+                    <div v-if="completedDeliveryDialogLoading"
+                        style="height: 100vh; position:absolute ; z-index: 999999999999999999999999; width: 100vw; display: flex; justify-content: center; align-items: center; opacity: 0.7; background-color: black;">
+                        <div class="spinner-border text-primary" role="status"></div>
+                    </div>
                         <div class="modal fade panelbox panelbox-right" id="products" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -251,6 +259,7 @@
                         <div class="modal-header">
                             <h3 class="modal-title my-2">الرجاء التأكيد بأن المنتجات الأتية تم توصيلها </h3>
                         </div>
+
                         <div class="modal-body px-4 mt-2">
             
                             <div class="table-responsive">
@@ -335,9 +344,6 @@
                                 </table>
                             </div>
             
-            
-            
-            
                             <div class="form-group boxed mt-1">
                                 <div class="input-wrapper text-right">
                                     <label class="text-right" for="discount">تخفيض أضافي</label>
@@ -350,6 +356,7 @@
                             </div>
             
                         </div>
+
                         <div class="modal-footer">
                             <button @click="Submit_Sale('completed')" type="button" class="btn btn-success  btn-lg w-100 "> أرسال
                             </button>
@@ -359,6 +366,11 @@
                             <!-- <a href="#" class="btn btn-text-secondary" data-bs-dismiss="modal">CANCEL</a>
                                             <a href="#" class="btn btn-text-primary" data-bs-dismiss="modal">DELETE</a> -->
                         </div>
+
+
+                      
+
+
                     </div>
                 </div>
             </div>
@@ -368,6 +380,11 @@
             <div class="modal fade fade " id="canceledDialog" data-bs-backdrop="static" tabindex="-1" role="dialog">
                 <div class="modal-dialog modal-lg " role="document">
                     <div class="modal-content">
+
+                        <div v-if="canceledDeliveryDialogLoading"
+                        style="height: 100vh; position:absolute ; z-index: 999999999999999999999999; width: 100vw; display: flex; justify-content: center; align-items: center; opacity: 0.7; background-color: black;">
+                        <div class="spinner-border text-primary" role="status"></div>
+                    </div>
             
                         <div class="modal fade panelbox panelbox-right" id="products" tabindex="-1" role="dialog">
                             <div class="modal-dialog" role="document">
@@ -435,6 +452,13 @@
                                 class="btn btn-danger mt-1  py-5 btn-lg w-100 "> ألغاء</button>
             
                         </div>
+
+                        <div class="modal fade fade " id="canceledDeliveryLoadingModal" data-bs-backdrop="static" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-lg " role="document">
+                                <div class="spinner-border text-primary" role="status"></div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -443,8 +467,13 @@
               <!-- Postpone Dialog Box -->
               <div class="modal fade fade " id="postponeDialog" data-bs-backdrop="static" tabindex="-1" role="dialog">
                 <div class="modal-dialog modal-lg " role="document">
+                   
                     <div class="modal-content">
             
+                        <div v-if="postponeDeliveryDialogLoading"
+                        style="height: 100vh; position:absolute ; z-index: 999999999999999999999999; width: 100vw; display: flex; justify-content: center; align-items: center; opacity: 0.7; background-color: black;">
+                        <div class="spinner-border text-primary" role="status"></div>
+                    </div>
                      
             
                         <div v-if="isToasterShown" id="invalid_qty" :class="`toast-box toast-top bg-${ToasterType} show`">
@@ -475,6 +504,12 @@
                             <button @click="undo()" type="button" data-bs-dismiss="modal"
                                 class="btn btn-danger mt-1  py-5 btn-lg w-100 "> ألغاء</button>
             
+                        </div>
+
+                        <div class="modal fade fade " id="postponedDeliveryLoadingModal" data-bs-backdrop="static" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-lg " role="document">
+                                <div class="spinner-border text-primary" role="status"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -553,13 +588,13 @@
     <script type="module" defer src="assets/js/firebase-notification-init.js"></script>
 
     <!-- Bootstrap -->
-    <script src="assets/js/lib/bootstrap.bundle.min.js"></script>
+    <script type="module" defer src="assets/js/lib/bootstrap.bundle.min.js"></script>
     <!-- Ionicons -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <!-- Splide -->
     <script src="assets/js/plugins/splide/splide.min.js"></script>
     <!-- Base Js File -->
-    <script src="assets/js/base.js" defer></script>
+    <script type="module" defer src="assets/js/base.js" defer></script>
 
     <script type="module" defer>
         const { createApp } = Vue
@@ -573,6 +608,10 @@
         createApp({
             data() {
                 return {
+                    completedDeliveryDialogLoading:false,
+                    canceledDeliveryDialogLoading:false,
+                    postponeDeliveryDialogLoading:false,
+
                     order: null,
                     isOrderLoading:true,
                     addional_discount:0,
@@ -1151,9 +1190,10 @@
                 //--------------------------------- Update Sale -------------------------\\
                 Update_Sale(statut) {
                     if (this.verifiedForm()) {
-                        this.SubmitProcessing = true;
-                        // Start the progress bar.
-                        // let id = this.$route.params.id;
+                        this.SubmitProcessing = true;                        
+                        this[statut+"DeliveryDialogLoading"] = true;
+
+
                         axios
                             .put(`sales/${this.sale.id}`, {
                                 date: this.sale.date,
@@ -1170,6 +1210,8 @@
                                 details: this.details
                             })
                             .then(response => {
+                                this[statut+"DeliveryDialogLoading"] = false;
+
                                 this.showQtyToaster('success','تم توصيل الطلب بنجاح')
                                 setTimeout(()=>{
                                     window.location.replace('index.html')
@@ -1185,6 +1227,8 @@
                                 // this.$router.push({ name: "index_sales" });
                             })
                             .catch(error => {
+                                this[statut+"DeliveryDialogLoading"] = false;
+
                                 showQtyToaster('danger','حدث خطأ أثناء التحديث')
 
                                 console.log(error);
@@ -1230,6 +1274,7 @@
 
             mounted: function () {
                 this.getOrder();
+                
             }
         }).mount('#appCapsule')
     </script>

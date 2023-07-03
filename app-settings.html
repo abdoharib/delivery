@@ -259,8 +259,26 @@
 
                 },
                 logout:function(){
-                    localStorage.clear();
+
+                    axios.get('logout').then( (response) =>  {
+                        // handle success
+                        // this.user = response.data
+                        // localStorage.setItem('token', response.data.token);
+                        // response.header('Content-Type', 'application/json
+                        // document.cookie = "key1 = value1;key2 = value2;expires = date";
+                        localStorage.clear();
                     window.location.replace('app-login.html')
+                    })
+                        .catch(function (error) {
+                            // handle error
+                            console.log(error);
+                        })
+                        .finally( ()=> {
+                            // always executed
+                            // this.isUserLoading = false;
+
+                        });
+  
                 },
                 
             },

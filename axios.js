@@ -13,7 +13,7 @@ axios.interceptors.response.use(function (response) {
   return Promise.reject(error);
 });
 var api = axios.create({
-  baseURL: 'https://app.deepstore.ly/delivery_api/',
+  baseURL: 'https://deep_store.test/delivery_api/',
   headers: {'Authorization': 'Bearer ' + token },
 })
 

@@ -5237,6 +5237,18 @@ textarea,
   margin-bottom: 0;
 }
 
+@keyframes jump {
+  0% { transform: translate(0%, -50%) }
+  50% { transform: translate(0%, -100%)  }
+  100% { transform: translate(0%, -50%)  }
+}
+
+.seen_badge {
+  animation: jump 1.2s infinite;
+}
+
+
+
 .orders .item p {
   font-size: 11px;
   margin: 0;

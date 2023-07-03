@@ -167,14 +167,19 @@
                 </div>
             </div>
 
-            <div class="tab-content mt-1">
+            <div class="tab-content mt-1 ">
                 <div class=" orders tab-pane fade show active"  id="pending" role="tabpanel">
 
                     <div v-if="isPendingOrdersLoading" class="spinner-border text-primary" role="status"></div>
 
 
                     <a v-for="(item, index) in pendingOrders" :key="index"
-                        :href="`app-transaction-detail.html?sale=${item.id}`" class="item ">
+                        :href="`app-transaction-detail.html?sale=${item.id}`" class="item mb-3 mt-3" style="position: relative;">
+
+
+
+                        <span v-if="( (item.created_since_unit == 'دقيقة' || item.created_since_unit == 'ساعة') && !item.seen_at  )" class="seen_badge badge badge-danger" style="position: absolute; left: -5px; top: 5px; ">!</span>
+
                         <div class="detail">
                             <div>
                                 <p class="fs-6 mb-1">#{{ item.Ref }}</p>
@@ -183,6 +188,8 @@
                                 <p class="my-1  text-success"><span class="fs-6">{{item.GrandTotal}}</span>
                                     <span>د.ل</span>
                                 </p>
+                                <p class=""><span>  تم الطلب منذ </span>{{item.created_since}} <span>{{item.created_since_unit}}</span></p>
+
 
 
                             </div>
@@ -190,8 +197,8 @@
                         <div class="right">
                             <div class="flex flex-column ">
                                 <div v-for="(product,key) in item.sale_details" :key="key">
-                                    <span class="badge badge-danger mb-1">
-                                        {{product.name}}
+                                    <span class="badge badge-primary px-2 py-2 mb-1">
+                                        <strong>{{product.name}}</strong>
                                     </span>
                                 </div>
                                 <!-- <div>
@@ -210,22 +217,27 @@
 
                             <!-- <div class="price text-danger"> - $ 150</div> -->
                         </div>
+
                     </a>
 
                 </div>
+
                 <div class=" orders tab-pane fade" id="canceled"  role="tabpanel">
                     <div v-if="isCanceledOrdersLoading" class="spinner-border text-primary" role="status"></div>
 
                     <a v-for="(item, index) in canceledOrders" :key="index"
                         :href="`app-transaction-detail.html?sale=${item.id}`" class="item">
+
                         <div class="detail">
                             <div>
-                                <p class="fs-4 mb-1">#{{ item.id }}</p>
+                                <p class="fs-6 mb-1">#{{ item.Ref }}</p>
                                 <strong class="my-1 fs-6"> {{item.client_tele}} </strong>
                                 <p class="">حي ألأندلس</p>
                                 <p class="my-1  text-success"><span class="fs-6">{{item.GrandTotal}}</span>
                                     <span>د.ل</span>
                                 </p>
+                                <p class=""><span>  تم الطلب منذ </span>{{item.created_since}} <span>{{item.created_since_unit}}</span></p>
+
 
 
                             </div>
@@ -233,8 +245,8 @@
                         <div class="right">
                             <div class="flex flex-column ">
                                 <div v-for="(product,key) in item.sale_details" :key="key">
-                                    <span class="badge badge-danger mb-1">
-                                        {{product.name}}
+                                    <span class="badge badge-primary px-2 py-2 mb-1">
+                                        <strong>{{product.name}}</strong>
                                     </span>
                                 </div>
                                 <!-- <div>
@@ -253,21 +265,27 @@
 
                             <!-- <div class="price text-danger"> - $ 150</div> -->
                         </div>
+                        
                     </a>
                 </div>
+
                 <div class=" orders tab-pane fade" id="postponed"  role="tabpanel">
                     <div v-if="isPostponedOrderLoading" class="spinner-border text-primary" role="status"></div>
 
                     <a v-for="(item, index) in postponedOrders" :key="index"
                         :href="`app-transaction-detail.html?sale=${item.id}`" class="item">
+
+
                         <div class="detail">
                             <div>
-                                <p class="fs-4 mb-1">#{{ item.id }}</p>
+                                <p class="fs-6 mb-1">#{{ item.Ref }}</p>
                                 <strong class="my-1 fs-6"> {{item.client_tele}} </strong>
                                 <p class="">حي ألأندلس</p>
                                 <p class="my-1  text-success"><span class="fs-6">{{item.GrandTotal}}</span>
                                     <span>د.ل</span>
                                 </p>
+                                <p class=""><span>  تم الطلب منذ </span>{{item.created_since}} <span>{{item.created_since_unit}}</span></p>
+
 
 
                             </div>
@@ -275,8 +293,8 @@
                         <div class="right">
                             <div class="flex flex-column ">
                                 <div v-for="(product,key) in item.sale_details" :key="key">
-                                    <span class="badge badge-danger mb-1">
-                                        {{product.name}}
+                                    <span class="badge badge-primary px-2 py-2 mb-1">
+                                        <strong>{{product.name}}</strong>
                                     </span>
                                 </div>
                                 <!-- <div>
@@ -295,42 +313,35 @@
 
                             <!-- <div class="price text-danger"> - $ 150</div> -->
                         </div>
+
                     </a>
                 </div>
+
                 <div class=" orders tab-pane fade" id="completed"  role="tabpanel">
                     <div v-if="isCompletedOrdersLoading" class="spinner-border text-primary" role="status"></div>
 
                     <a v-for="(item, index) in completedOrders" :key="index"
                         :href="`app-transaction-detail.html?sale=${item.id}`" class="item">
+
                         <div class="detail">
                             <div>
-                                <p class="fs-4 mb-1">#{{ item.id }}</p>
+                                <p class="fs-6 mb-1">#{{ item.Ref }}</p>
                                 <strong class="my-1 fs-6"> {{item.client_tele}} </strong>
                                 <p class="">حي ألأندلس</p>
                                 <p class="my-1  text-success"><span class="fs-6">{{item.GrandTotal}}</span>
                                     <span>د.ل</span>
                                 </p>
+                                <p class=""><span>  تم الطلب منذ </span>{{item.created_since}} <span>{{item.created_since_unit}}</span></p>
 
 
-                                <span v-if="item.payment_status == 'unpaid'" class="badge badge-warning mb-1 px-2 py-1"
-                                    style="font-size: 0.75rem;">
-                                    غير مستحق
-                                </span>
-                                <span v-else-if="item.payment_status == 'paid'"
-                                    class="badge badge-success mb-1 px-2 py-1" style="font-size: 0.75rem;">
-                                    تم التسوية
-                                </span>
-                                <span v-else class="badge badge-info mb-1 px-2 py-1" style="font-size: 0.75rem;">
-                                    مدفوع جزئيا
-                                </span>
 
                             </div>
                         </div>
                         <div class="right">
                             <div class="flex flex-column ">
                                 <div v-for="(product,key) in item.sale_details" :key="key">
-                                    <span class="badge badge-danger mb-1 p-1">
-                                        {{product.name}}
+                                    <span class="badge badge-primary px-2 py-2 mb-1">
+                                        <strong>{{product.name}}</strong>
                                     </span>
                                 </div>
                                 <!-- <div>
@@ -349,8 +360,10 @@
 
                             <!-- <div class="price text-danger"> - $ 150</div> -->
                         </div>
+
                     </a>
                 </div>
+
             </div>
         </div>
         <!-- * Transactions -->
@@ -757,7 +770,6 @@
     <!-- ========= JS Files =========  -->
 
     
-    <script type="module" defer src="assets/js/firebase-notification-init.js"></script>
 
     <!-- Bootstrap -->
     <script src="assets/js/lib/bootstrap.bundle.min.js"></script>
@@ -767,6 +779,8 @@
     <script src="assets/js/plugins/splide/splide.min.js"></script>
     <!-- Base Js File -->
     <script src="assets/js/base.js"></script>
+    <script type="module" defer src="assets/js/firebase-notification-init.js"></script>
+
 
     <script type="module" defer>
         const { createApp } = Vue
@@ -776,6 +790,7 @@
             data() {
                 return {
                     unreadNotificationsCount:0,
+                    not_seen_count:0,
                     
                     pendingOrders: [],
                     isPendingOrdersLoading: false,
@@ -833,6 +848,15 @@
                     }).then((response) => {
                         // handle success
                         this.pendingOrders = response.data.sales
+
+                        // this.pendingOrders.sort((a,b)=>{
+                        //     if(a.seen_at && !b.seen_at){
+                        //         return 1;
+                        //     }else{
+                        //         return -1;
+                        //     }
+                        // })
+                        this.not_seen_count = this.pendingOrders.filter(v=> !v.seen_at).length;
                         // localStorage.setItem('token', response.data.token);
                         // response.header('Content-Type', 'application/json
                         // document.cookie = "key1 = value1;key2 = value2;expires = date";
