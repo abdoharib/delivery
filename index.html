@@ -145,7 +145,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link py-4 text-info" data-bs-toggle="tab" href="#postponed" role="tab">
+                            <a class="nav-link py-4 text-info" data-bs-toggle="tab" @click="getPostponedOrders()" href="#postponed" role="tab">
                                 <ion-icon name="calendar-outline"></ion-icon>
                                 مؤجل
                             </a>
@@ -213,26 +213,31 @@
                     </a>
 
                 </div>
-                <div class=" orders tab-pane fade" id="postponed" role="tabpanel">
-                    <a href="app-transaction-detail.html"  class="item">
+                <div class=" orders tab-pane fade" id="canceled"  role="tabpanel">
+                    <div v-if="isCanceledOrdersLoading" class="spinner-border text-primary" role="status"></div>
+
+                    <a v-for="(item, index) in canceledOrders" :key="index"
+                        :href="`app-transaction-detail.html?sale=${item.id}`" class="item">
                         <div class="detail">
                             <div>
-                                <p class="fs-4 mb-1">#215</p>
-                                <strong class="my-1 fs-6">0919718023</strong>
+                                <p class="fs-4 mb-1">#{{ item.id }}</p>
+                                <strong class="my-1 fs-6"> {{item.client_tele}} </strong>
                                 <p class="">حي ألأندلس</p>
-                                <p class="my-1  text-success"><span class="fs-6">250</span> <span>د.ل</span></p>
+                                <p class="my-1  text-success"><span class="fs-6">{{item.GrandTotal}}</span>
+                                    <span>د.ل</span>
+                                </p>
 
 
                             </div>
                         </div>
                         <div class="right">
                             <div class="flex flex-column ">
-                                <div>
-                                    <span class="badge badge-warning mb-1">
-                                        منظف فنار
+                                <div v-for="(product,key) in item.sale_details" :key="key">
+                                    <span class="badge badge-danger mb-1">
+                                        {{product.name}}
                                     </span>
                                 </div>
-                                <div>
+                                <!-- <div>
                                     <span class="badge badge-primary mb-1">
                                         فوم فودرا سيارة
                                     </span>
@@ -241,7 +246,7 @@
                                     <span class="badge badge-danger mb-1">
                                         قطر مينا
                                     </span>
-                                </div>
+                                </div> -->
 
 
                             </div>
@@ -249,12 +254,11 @@
                             <!-- <div class="price text-danger"> - $ 150</div> -->
                         </div>
                     </a>
-
                 </div>
-                <div class=" orders tab-pane fade" id="canceled"  role="tabpanel">
-                    <div v-if="isCanceledOrdersLoading" class="spinner-border text-primary" role="status"></div>
+                <div class=" orders tab-pane fade" id="postponed"  role="tabpanel">
+                    <div v-if="isPostponedOrderLoading" class="spinner-border text-primary" role="status"></div>
 
-                    <a v-for="(item, index) in canceledOrders" :key="index"
+                    <a v-for="(item, index) in postponedOrders" :key="index"
                         :href="`app-transaction-detail.html?sale=${item.id}`" class="item">
                         <div class="detail">
                             <div>
@@ -779,6 +783,9 @@
                     canceledOrders: [],
                     isCanceledOrdersLoading: false,
 
+                    postponedOrders: [],
+                    isPostponedOrderLoading: false,
+
                     completedOrders: [],
                     isCompletedOrdersLoading: false,
 
@@ -901,6 +908,38 @@
                         });
 
                 },
+                getPostponedOrders() {
+                    this.postponedOrders = [];
+
+                    this.isPostponedOrderLoading = true;
+
+                    axios.get('sales', {
+                        params: {
+                            page: 1,
+                            limit: 1000,
+                            statut: 'postponed',
+                            SortField: 'id',
+                            SortType: 'desc'
+                        }
+                    }).then((response) => {
+                        // handle success
+                        this.postponedOrders = response.data.sales
+                        // localStorage.setItem('token', response.data.token);
+                        // response.header('Content-Type', 'application/json
+                        // document.cookie = "key1 = value1;key2 = value2;expires = date";
+                    })
+                        .catch(function (error) {
+                            // handle error
+                            console.log(error);
+                        })
+                        .finally(() => {
+                            // always executed
+                            this.isPostponedOrderLoading = false;
+
+                        });
+
+                },
+              
                 gotToOrderDetails: () => {
                     window
                 }

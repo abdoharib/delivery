@@ -190,7 +190,8 @@
 
                         <button type="button" class="btn btn-success btn-lg w-100 " data-bs-toggle="modal"
                             data-bs-target="#confirmDeliveryDialog">تم التوصيل</button>
-                        <button type="button" class="btn mt-2 btn-warning btn-lg w-100 ">تم التأجيل</button>
+                        <button type="button" data-bs-toggle="modal"
+                        data-bs-target="#postponeDialog" class="btn mt-2 btn-warning btn-lg w-100 ">تم التأجيل</button>
                         <button type="button" class="btn mt-2 btn-danger btn-lg w-100" data-bs-toggle="modal"
                         data-bs-target="#canceledDialog">تم الألغاء</button>
 
@@ -438,6 +439,47 @@
                 </div>
             </div>
             <!-- *Canceled Dialog Box -->
+
+              <!-- Postpone Dialog Box -->
+              <div class="modal fade fade " id="postponeDialog" data-bs-backdrop="static" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-lg " role="document">
+                    <div class="modal-content">
+            
+                     
+            
+                        <div v-if="isToasterShown" id="invalid_qty" :class="`toast-box toast-top bg-${ToasterType} show`">
+                            <div class="in">
+                                <div class="text-white text-right">
+                                    {{ToasterData}}
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="modal-header">
+                            <h3 class="modal-title my-2">الرجاء أختيار تاريخ التأجيل</h3>
+                        </div>
+                        <div class="modal-body px-4 mt-2"> 
+            
+                            <div class="form-group boxed mt-1">
+                                <div class="input-wrapper">
+                                    <label class="label"  for="select4b">تاريخ المؤجل له</label>
+                                    <input type="datetime-local" class="form-control" v-model="sale.postponed_date" id="date" placeholder="">
+
+                                </div>
+                            </div>
+            
+                        </div>
+                        <div class="modal-footer">
+                            <button @click="Submit_Sale('postponed')" type="button" class="btn btn-success  btn-lg w-100 "> أرسال
+                            </button>
+                            <button @click="undo()" type="button" data-bs-dismiss="modal"
+                                class="btn btn-danger mt-1  py-5 btn-lg w-100 "> ألغاء</button>
+            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- *Postpone Dialog Box -->
 
             
         </div>
@@ -1115,6 +1157,7 @@
                         axios
                             .put(`sales/${this.sale.id}`, {
                                 date: this.sale.date,
+                                postponed_date: this.sale.postponed_date,
                                 client_id: this.sale.client_id,
                                 GrandTotal: this.GrandTotal,
                                 warehouse_id: this.sale.warehouse_id,
