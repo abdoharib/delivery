@@ -1197,6 +1197,7 @@
                         axios
                             .put(`sales/${this.sale.id}`, {
                                 date: this.sale.date,
+                                cancel_reason:this.sale.cancel_reason,
                                 postponed_date: this.sale.postponed_date,
                                 client_id: this.sale.client_id,
                                 GrandTotal: this.GrandTotal,
