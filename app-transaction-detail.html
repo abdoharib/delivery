@@ -438,9 +438,8 @@
                             <div class="form-group boxed mt-1">
                                 <div class="input-wrapper">
                                     <label class="label" for="select4b">سبب الألغاء</label>
-                                    <select class="form-control custom-select" id="select4b">
-                                        <option selected value="أخري">أخري</option>
-                                    </select>
+                                    <input v-model="sale.cancel_reason"   name="cancel_reason"
+                                    class="form-control" id="cancel_reason">
                                 </div>
                             </div>
             
@@ -643,7 +642,8 @@
                         tax_rate: 0,
                         TaxNet: 0,
                         shipping: 0,
-                        discount: 0
+                        discount: 0,
+                        cancel_reason:'',
                     },
                     total: 0,
                     GrandTotal: 0,

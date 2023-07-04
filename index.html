@@ -334,6 +334,10 @@
                                 <p class=""><span>  تم الطلب منذ </span>{{item.created_since}} <span>{{item.created_since_unit}}</span></p>
 
 
+                                <span v-if="item.payment_status == 'paid'" class="badge badge-success mb-1 px-2 py-1" style="font-size: 0.75rem;"> تم التسوية </span>
+                                <span v-else="item.payment_status == 'notpaid'" class="badge badge-warning mb-1 px-2 py-1" style="font-size: 0.75rem;"> غير مستحق  </span>
+
+
 
                             </div>
                         </div>
