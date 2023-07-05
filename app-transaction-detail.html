@@ -103,6 +103,16 @@
                                 <ion-icon class="mr-3 pr-3" name="call"></ion-icon>
                             </a>
                         </li>
+
+                        <li class="px-4">
+                            <strong>Whats App</strong>
+                            <div></div>
+                            <a :href="'https://wa.me/+218'+order.sale.client_phone.substring(1)" target="_blank" class="btn btn-success fs-6 fw-bold p-2" style="box-shadow: 2px 2px 2px black;">
+                                
+                                <span class="m-1">{{order.sale.client_phone}}</span>
+                                <ion-icon class="mr-3 pr-3" name="logo-whatsapp"></ion-icon>
+                            </a>
+                        </li>
                         <li class="px-4">
                             <strong>العنوان</strong>
                             <span>{{order.sale.address}}</span>
