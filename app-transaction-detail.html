@@ -177,7 +177,7 @@
                             <tfoot>
                                 <tr class="">
                                     <td colspan="3" class="text-end">المجموع :</td>
-                                    <td class="text-start">{{order.sale.GrandTotal - order.sale.discount }} د.ل</td>
+                                    <td class="text-start">{{order.sale.GrandTotal + order.sale.discount }} د.ل</td>
                                 </tr>
                                 <tr class="text-danger">
                                     <td colspan="3" class="text-end">التخفيض :</td>
@@ -334,7 +334,7 @@
                                     <tfoot>
                                         <tr class="">
                                             <td colspan="3" class="text-end">المجموع :</td>
-                                            <td class="text-start">{{GrandTotal }} د.ل</td>
+                                            <td class="text-start">{{GrandTotal+sale.discount }} د.ل</td>
                                         </tr>
                                         <tr class="text-danger">
                                             <td colspan="3" class="text-end">التخفيض :</td>
