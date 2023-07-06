@@ -192,6 +192,10 @@
                                     <span>د.ل</span>
                                 </p>
                                 <p class=""><span>  تم الطلب منذ </span>{{item.created_since}} <span>{{item.created_since_unit}}</span></p>
+                                
+                                <span v-if="item.answer_status == 'not_answered'" class="badge badge-danger mb-1 px-2 py-1" style="font-size: 0.75rem;"> لم يتم الرد   </span>
+                                <span v-else-if="item.payment_status == 'answered'" class="badge badge-success mb-1 px-2 py-1" style="font-size: 0.75rem;"> تم الرد   </span>
+                                <span v-else class="badge badge-secondary mb-1 px-2 py-1" style="font-size: 0.75rem;"> لم يتم الأتصال </span>
 
 
 
