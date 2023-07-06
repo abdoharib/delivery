@@ -101,7 +101,7 @@
                                 <strong class="text-xl">تم الرد</strong>
                             </span>
                             <span v-else-if="order.sale.answer_status == 'no_answer'" class="badge badge-danger px-4 py-3">
-                                <strong class="text-xl">لم يتم الرد</strong>
+                                <strong class="text-xl">لا أستجابة</strong>
                             </span>
                             <span v-else class="badge badge-secondary px-4 py-3">
                                 <strong class="text-xl">لم يتم الأتصال</strong>
@@ -229,7 +229,7 @@
                         <div style="display: flex; gap: 10px;" v-if="(sale.answer_status != 'answered')">
                             <div style="width: 100%;" v-if="(!sale.answer_status)" @click="Update_Reply_Status('no_answer')"  >
                                 <button type="button" class="btn p-0 mb-1 btn-danger btn-lg w-100">
-                                    <span class="mx-2">لم يتم الرد</span>
+                                    <span class="mx-2">لا أستجابة</span>
                                     <ion-icon style="transform: rotate(90deg);" name="call"></ion-icon>
                                 </button>
                             </div>
