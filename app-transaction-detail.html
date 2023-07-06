@@ -226,14 +226,14 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <div class="row" v-if="(sale.answer_status != 'answered')">
-                            <div class="col-6" >
+                        <div style="display: flex;" v-if="(sale.answer_status != 'answered')">
+                            <div style="width: 100%;" >
                                 <button type="button" v-if="(!sale.answer_status)" @click="Update_Reply_Status('no_answer')" class="btn p-0 mb-1 btn-danger btn-lg w-100">
                                     <span class="mx-2">لم يتم الرد</span>
                                     <ion-icon style="transform: rotate(90deg);" name="call"></ion-icon>
                                 </button>
                             </div>
-                            <div class="col-6" >
+                            <div style="width: 100%;" >
                                 <button type="button" @click="Update_Reply_Status('answered')" class="btn btn-success btn-lg w-100 ">
                                     <span class="mx-2">تم الرد</span>
                                     <ion-icon name="call"></ion-icon>
