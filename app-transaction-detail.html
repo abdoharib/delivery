@@ -95,6 +95,20 @@
                             </span>
                         </li>
                         <li class="px-4">
+                            <strong> حالة الرد علي الأتصال</strong>
+
+                            <span v-if="order.sale.answer_status == 'answered'" class="badge badge-success px-4 py-3">
+                                <strong class="text-xl">تم الرد</strong>
+                            </span>
+                            <span v-else-if="order.sale.answer_status == 'no_answer'" class="badge badge-danger px-4 py-3">
+                                <strong class="text-xl">لم يتم الرد</strong>
+                            </span>
+                            <span v-else class="badge badge-secondary px-4 py-3">
+                                <strong class="text-xl">لم يتم الأتصال</strong>
+                            </span>
+                   
+                        </li>
+                        <li class="px-4">
                             <strong>رقم الهاتف</strong>
                             <div></div>
                             <a :href=" 'tel:'+order.sale.client_phone" class="btn btn-dark fs-6 fw-bold p-2" style="box-shadow: 2px 2px 2px black;">
@@ -205,13 +219,38 @@
             </div>
 
             <div v-if="(order.sale.statut !== 'completed') && (order.sale.statut !== 'canceled')" class="section mt-2 mb-4">
+                <div v-if="isUpdateReplyLoading"
+                        style="height: 100vh; position:absolute ; z-index: 999999999999999999999999; width: 100vw; display: flex; justify-content: center; align-items: center; opacity: 0.7; background-color: black;">
+                        <div class="spinner-border text-primary" role="status"></div>
+                    </div>
                 <div class="card">
                     <div class="card-body">
 
+                        <div class="row" v-if="(sale.answer_status != 'answered')">
+                            <div class="col-6" >
+                                <button type="button" v-if="(!sale.answer_status) || (sale.answer_status == 'no_answer')" @click="Update_Reply_Status('no_answer')" class="btn p-0 mb-1 btn-danger btn-lg w-100">
+                                    <span class="mx-2">لم يتم الرد</span>
+                                    <ion-icon name="call"></ion-icon>
+                                </button>
+                            </div>
+                            <div class="col-6" >
+                                <button type="button" @click="Update_Reply_Status('answered')" class="btn btn-success btn-lg w-100 ">
+                                    <span class="mx-2">تم الرد</span>
+                                    <ion-icon name="call"></ion-icon>
+                                </button>
+                            </div>
 
+
+                        </div>
+
+                       
+                            
+                       
+
+                        <hr class="my-2"/>
 
                         <button type="button" class="btn btn-success btn-lg w-100 " data-bs-toggle="modal"
-                            data-bs-target="#confirmDeliveryDialog">تم التوصيل</button>
+                        data-bs-target="#confirmDeliveryDialog">تم التوصيل</button>
                         <button type="button" data-bs-toggle="modal"
                         data-bs-target="#postponeDialog" class="btn mt-2 btn-warning btn-lg w-100 ">تم التأجيل</button>
                         <button type="button" class="btn mt-2 btn-danger btn-lg w-100" data-bs-toggle="modal"
@@ -691,6 +730,7 @@
                         etat: "",
                         is_imei: "",
                         imei_number: "",
+                        answer_status:'',
                     }
 
 
@@ -1227,7 +1267,8 @@
                                 TaxNet: this.sale.TaxNet ? this.sale.TaxNet : 0,
                                 discount: this.sale.discount ? this.sale.discount : 0,
                                 shipping: this.sale.shipping ? this.sale.shipping : 0,
-                                details: this.details
+                                details: this.details,
+                                answer_status: this.sale.answer_status
                             })
                             .then(response => {
                                 this[statut+"DeliveryDialogLoading"] = false;
@@ -1256,6 +1297,56 @@
                                 // this.SubmitProcessing = false;
                             });
                     }
+                },
+
+                //--------------------------------- Update Sale -------------------------\\
+                Update_Reply_Status(answer_status) {
+                    this.isUpdateReplyLoading = true;
+                    axios
+                        .put(`sales/${this.sale.id}`, {
+                            date: this.sale.date,
+                            cancel_reason: this.sale.cancel_reason,
+                            postponed_date: this.sale.postponed_date,
+                            client_id: this.sale.client_id,
+                            GrandTotal: this.GrandTotal,
+                            warehouse_id: this.sale.warehouse_id,
+                            statut: this.sale.statut,
+                            address: this.sale.address,
+                            notes: this.sale.notes,
+                            tax_rate: this.sale.tax_rate ? this.sale.tax_rate : 0,
+                            TaxNet: this.sale.TaxNet ? this.sale.TaxNet : 0,
+                            discount: this.sale.discount ? this.sale.discount : 0,
+                            shipping: this.sale.shipping ? this.sale.shipping : 0,
+                            details: this.details,
+                            answer_status: answer_status
+
+                        })
+                        .then(response => {
+                            this.isUpdateReplyLoading = false;
+
+                            this.showQtyToaster('success', 'تم توصيل الطلب بنجاح')
+                            setTimeout(() => {
+                                window.location.replace('index.html')
+
+                            }, 1200)
+                            // this.makeToast(
+                            //     "success",
+                            //     this.$t("Update.TitleSale"),
+                            //     this.$t("Success")
+                            // );
+                            // this.SubmitProcessing = false;
+
+                            // this.$router.push({ name: "index_sales" });
+                        })
+                        .catch(error => {
+                            this.isUpdateReplyLoading = false;
+
+                            showQtyToaster('danger', 'حدث خطأ أثناء التحديث')
+
+                            console.log(error);
+                            // this.makeToast("danger", this.$t("InvalidData"), this.$t("Failed"));
+                            // this.SubmitProcessing = false;
+                        });
                 },
 
                 //-------------------------------- Get Last Detail Id -------------------------\\
