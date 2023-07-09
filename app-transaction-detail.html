@@ -151,6 +151,10 @@
                             <strong> ملاحظات</strong>
                             <span class="m-0"> {{ order.sale.notes }}</span>
                         </li>
+                        <li class="px-4">
+                            <strong> ملاحظات المندوب</strong>
+                            <span class="m-0"> {{ order.sale.delivery_note }}</span>
+                        </li>
                     </ul>
 
                 </div>
@@ -405,6 +409,18 @@
                                     <label class="text-right" for="discount">تخفيض أضافي</label>
                                     <input v-model.number="sale.discount" @keyup="keyup_Discount()" type="number" name="discount"
                                         class="form-control" id="discount" placeholder="0">
+                                    <i class="clear-input">
+                                        <ion-icon name="close-circle"></ion-icon>
+                                    </i>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group boxed mt-1">
+                                <div class="input-wrapper text-right">
+                                    <label class="text-right" for="discount">ملاحظة مندوب/label>
+                                    <input v-model.number="sale.delivery_note"  name="delivery_note"
+                                        class="form-control" id="discount" placeholder="">
                                     <i class="clear-input">
                                         <ion-icon name="close-circle"></ion-icon>
                                     </i>
@@ -701,6 +717,7 @@
                         shipping: 0,
                         discount: 0,
                         cancel_reason:'',
+                        delivery_note:'',
                     },
                     total: 0,
                     GrandTotal: 0,
@@ -1263,6 +1280,7 @@
                                 statut: statut,
                                 address:this.sale.address,
                                 notes: this.sale.notes,
+                                delivery_note:this.sale.delivery_note,
                                 tax_rate: this.sale.tax_rate ? this.sale.tax_rate : 0,
                                 TaxNet: this.sale.TaxNet ? this.sale.TaxNet : 0,
                                 discount: this.sale.discount ? this.sale.discount : 0,
