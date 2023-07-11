@@ -68,7 +68,7 @@
             <ul class="listview image-listview flush">
                 <li v-for="(notification, index) in unreadNotifications" class="">
                     
-                    <a v-if="notification.data.statut == 'pending'" class="item">
+                    <a :href="'/app-transaction-detail.html?sale='+notification.data.id" v-if="notification.data.statut == 'pending'" class="item">
                         <div class="icon-box ">
                             <span>📜</span>
                         </div>

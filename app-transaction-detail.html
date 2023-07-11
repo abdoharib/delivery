@@ -260,6 +260,12 @@
                         <button type="button" class="btn mt-2 btn-danger btn-lg w-100" data-bs-toggle="modal"
                         data-bs-target="#canceledDialog">تم الألغاء</button>
 
+                        <hr class="my-2"/>
+
+                        <button type="button" class="btn mt-2 btn-secondary btn-lg w-100" data-bs-toggle="modal"
+                        data-bs-target="#deliverNoteDialog">كتابة ملاحظة</button>
+
+
                     </div>
                 </div>
             </div>
@@ -535,6 +541,49 @@
             </div>
             <!-- *Canceled Dialog Box -->
 
+            <!-- Delivery Note Dialog Box -->
+            <div class="modal fade fade " id="deliverNoteDialog" data-bs-backdrop="static" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-lg " role="document">
+                    <div class="modal-content">
+
+                        <div v-if="NoteDeliveryDialogLoading"
+                        style="height: 100vh; position:absolute ; z-index: 999999999999999999999999; width: 100vw; display: flex; justify-content: center; align-items: center; opacity: 0.7; background-color: black;">
+                        <div class="spinner-border text-primary" role="status"></div>
+                    </div>
+            
+                        <div class="modal-header">
+                            <h3 class="modal-title my-2">ملاحظة المندوب</h3>
+                        </div>
+                        <div class="modal-body px-4 mt-2"> 
+            
+                            <div class="form-group boxed mt-1">
+                                <div class="input-wrapper">
+                                    <label class="label" for="select4b">الملاحظة</label>
+                                    <input v-model="sale.delivery_note"   name="cancel_reason"
+                                    class="form-control" id="delivery_note">
+                                </div>
+                            </div>
+            
+                        </div>
+                        <div class="modal-footer">
+                            <button @click="Submit_Sale('note')" type="button" class="btn btn-success  btn-lg w-100 "> أرسال
+                            </button>
+                            <button @click="undo()" type="button" data-bs-dismiss="modal"
+                                class="btn btn-danger mt-1  py-5 btn-lg w-100 "> ألغاء</button>
+            
+                        </div>
+
+                        <div class="modal fade fade " id="deliverNoteLoadingModal" data-bs-backdrop="static" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-lg " role="document">
+                                <div class="spinner-border text-primary" role="status"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- *Canceled Dialog Box -->
+
               <!-- Postpone Dialog Box -->
               <div class="modal fade fade " id="postponeDialog" data-bs-backdrop="static" tabindex="-1" role="dialog">
                 <div class="modal-dialog modal-lg " role="document">
@@ -682,6 +731,7 @@
                     completedDeliveryDialogLoading:false,
                     canceledDeliveryDialogLoading:false,
                     postponeDeliveryDialogLoading:false,
+                    NoteDeliveryDialogLoading:false,
 
                     order: null,
                     isOrderLoading:true,
@@ -843,7 +893,7 @@
 
 
                 //--- Submit Validate Update Sale
-                Submit_Sale(statut) {
+                Submit_Sale(statut=null) {
                     this.Update_Sale(statut);
                 },
                 //---Submit Validation Update Detail
@@ -1263,10 +1313,14 @@
                 },
 
                 //--------------------------------- Update Sale -------------------------\\
-                Update_Sale(statut) {
+                Update_Sale(statut=null) {
                     if (this.verifiedForm()) {
-                        this.SubmitProcessing = true;                        
-                        this[statut+"DeliveryDialogLoading"] = true;
+                        this.SubmitProcessing = true;    
+                        if(statut == null) {
+                            this["NoteDeliveryDialogLoading"] = true;
+                        }else{
+                            this[statut+"DeliveryDialogLoading"] = true;
+                        }                 
 
 
                         axios
@@ -1277,7 +1331,7 @@
                                 client_id: this.sale.client_id,
                                 GrandTotal: this.GrandTotal,
                                 warehouse_id: this.sale.warehouse_id,
-                                statut: statut,
+                                statut: (statut != null ) ? statut : this.sale.statut,
                                 address:this.sale.address,
                                 notes: this.sale.notes,
                                 delivery_note:this.sale.delivery_note,
