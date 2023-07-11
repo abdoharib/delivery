@@ -86,7 +86,7 @@
                         </div>
                     </a>
 
-                    <a v-else-if="notification.data.statut == 'completed'" class="item">
+                    <a :href="'/app-transaction-detail.html?sale='+notification.data.id" v-else-if="notification.data.statut == 'completed'" class="item">
                         <div class="icon-box ">
                             <span>✅</span>
                         </div>
@@ -104,7 +104,7 @@
                         </div>
                     </a>
 
-                    <a v-else-if="notification.data.statut == 'canceled'"  class="item">
+                    <a :href="'/app-transaction-detail.html?sale='+notification.data.id" v-else-if="notification.data.statut == 'canceled'"  class="item">
                         <div class="icon-box ">
                             <span>❌</span>
                         </div>
@@ -122,7 +122,7 @@
                         </div>
                     </a>
 
-                    <a v-else-if="notification.data.statut == 'postponed'"  class="item">
+                    <a :href="'/app-transaction-detail.html?sale='+notification.data.id" v-else-if="notification.data.statut == 'postponed'"  class="item">
                         <div class="icon-box ">
                             <span>📅</span>
                         </div>
