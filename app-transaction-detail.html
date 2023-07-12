@@ -143,6 +143,17 @@
                             <span>{{ order.sale.date }}
                             </span>
                         </li>
+
+                        <li class="px-4">
+                            <strong>هل الكمية متوفرة</strong>
+                            <span v-if="order.sale.has_stock" class="badge badge-success px-4 py-3">
+                                <strong class="text-xl">يوجد مخزون</strong>
+                            </span>
+                            <span v-else class="badge badge-danger px-4 py-3">
+                                <strong class="text-xl"> لا يوجد مخزون </strong>
+                            </span>
+                        </li>
+                        
                         <li class="px-4">
                             <strong>المجموع الكلي</strong>
                             <h3 class="m-0">LYD {{ order.sale.GrandTotal }}</h3>
