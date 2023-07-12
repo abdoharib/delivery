@@ -194,7 +194,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(item, index) in order.details">
+                                <tr v-for="(item, index) in order.details" :class="{'bg-danger': item.has_stock }">
                                     <th scope="row"> {{item.name}} </th>
                                     <td>{{item.quantity}}</td>
                                     <td>{{item.Unit_price}}</td>
