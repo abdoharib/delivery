@@ -188,15 +188,18 @@
                                 <tr>
                                     <th scope="col">أسم المنتج</th>
                                     <th scope="col">الكمية</th>
+                                    <th scope="col">المتوفر</th>
                                     <th scope="col">السعر</th>
                                     <th scope="col" class="">الكلي</th>
 
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(item, index) in order.details" :class="{'bg-danger': item.has_stock }">
+                                <tr v-for="(item, index) in order.details" :class="{'bg-danger': !item.has_stock }">
                                     <th scope="row"> {{item.name}} </th>
                                     <td>{{item.quantity}}</td>
+                                    <td>{{item.stock}}</td>
+
                                     <td>{{item.Unit_price}}</td>
                                     <td class=" text-primary">{{item.total}} د.ل</td>
 
