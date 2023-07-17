@@ -195,7 +195,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(item, index) in order.details" :class="{'bg-danger': !item.has_stock }">
+                                <tr v-for="(item, index) in details" :class="{'bg-danger': !item.has_stock }">
                                     <th scope="row"> {{item.name}} </th>
                                     <td>{{item.quantity}}</td>
                                     <td>{{item.stock}}</td>
@@ -209,11 +209,11 @@
                             <tfoot>
                                 <tr class="">
                                     <td colspan="3" class="text-end">المجموع :</td>
-                                    <td class="text-start">{{order.sale.GrandTotal + order.sale.discount }} د.ل</td>
+                                    <td class="text-start">{{GrandTotal + sale.discount }} د.ل</td>
                                 </tr>
                                 <tr class="text-danger">
                                     <td colspan="3" class="text-end">التخفيض :</td>
-                                    <td class="result"> {{order.sale.discount}} د.ل -</td>
+                                    <td class="result"> {{sale.discount}} د.ل -</td>
                                 </tr>
 
                                 <tr class="text-info font-bold text-xl">
@@ -224,12 +224,14 @@
                                     </td>
                                     <td class="result">
                                         <strong>
-                                            {{order.sale.GrandTotal}} د.ل
+                                            {{GrandTotal}} د.ل
                                         </strong>
                                     </td>
                                 </tr>
 
                             </tfoot>
+
+                            
                         </table>
                     </div>
 
@@ -834,7 +836,7 @@
                         // }
                     }).then((response) => {
                         // handle success
-                        this.order = response.data
+                        this.order = JSON.parse(JSON.stringify(response.data))
 
                         this.sale = response.data.sale;
                         this.details = response.data.details;
@@ -875,7 +877,12 @@
                     this.updateGrandTotal()
                 },
                 undo() {
-                    this.orderEdited = JSON.parse(JSON.stringify(this.order))
+                    // console.log("Afsafas");
+
+                    this.sale = JSON.parse(JSON.stringify(this.order)).sale;
+                    this.details = JSON.parse(JSON.stringify(this.order)).details;
+                    this.Calcul_Total();
+                    // this.orderEdited = JSON.parse(JSON.stringify(this.order))
                 },
                 updateDiscount(val) {
                     if (Number.parseFloat(val.target.value) <= Number.parseFloat(this.sale.GrandTotal)) {
@@ -1260,7 +1267,7 @@
 
                 //-----------------------------------------Calcul Total ------------------------------\\
                 Calcul_Total() {
-                    console.log("Afasfsa");
+                    // console.log("Afasfsa");
 
                     this.total = 0;
                     for (var i = 0; i < this.details.length; i++) {
