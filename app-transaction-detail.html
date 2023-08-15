@@ -190,6 +190,8 @@
                                     <th scope="col">الكمية</th>
                                     <th scope="col">المتوفر</th>
                                     <th scope="col">السعر</th>
+                                    <th scope="col">تخفيض المنتج</th>
+
                                     <th scope="col" class="">الكلي</th>
 
                                 </tr>
@@ -201,6 +203,9 @@
                                     <td>{{item.stock}}</td>
 
                                     <td>{{item.Unit_price}}</td>
+
+                                    <td>{{item.DiscountNet}}</td>
+
                                     <td class=" text-primary">{{item.total}} د.ل</td>
 
                                 </tr>
@@ -208,16 +213,16 @@
                             </tbody>
                             <tfoot>
                                 <tr class="">
-                                    <td colspan="3" class="text-end">المجموع :</td>
+                                    <td colspan="5" class="text-end">المجموع :</td>
                                     <td class="text-start">{{GrandTotal + sale.discount }} د.ل</td>
                                 </tr>
                                 <tr class="text-danger">
-                                    <td colspan="3" class="text-end">التخفيض :</td>
+                                    <td colspan="5" class="text-end">التخفيض :</td>
                                     <td class="result"> {{sale.discount}} د.ل -</td>
                                 </tr>
 
                                 <tr class="text-info font-bold text-xl">
-                                    <td colspan="3" class="text-end font-bold">
+                                    <td colspan="5" class="text-end font-bold">
                                         <strong>
                                             المجموع الكلي :
                                         </strong>
@@ -351,6 +356,8 @@
                                             <th scope="col">أسم المنتج</th>
                                             <th scope="col">الكمية</th>
                                             <th scope="col">السعر</th>
+                                            <th scope="col">تخفيض المنتج</th>
+
                                             <th scope="col" class="">الكلي</th>
                                             <th scope="col" class="">عمليات</th>
             
@@ -377,7 +384,9 @@
             
                                             </td>
                                             <td>{{item.Unit_price}}</td>
-                                            <td class="">{{item.Unit_price * item.quantity}} د.ل</td>
+                                            <td>{{item.DiscountNet}}</td>
+
+                                            <td class="">{{(item.Unit_price * item.quantity) - item.DiscountNet }} د.ل</td>
                                             <td class="">
                                                 <button @click="delete_Product_Detail(item.detail_id)" type="button"
                                                     class="btn btn-icon btn-danger me-1">
@@ -1273,7 +1282,7 @@
                     for (var i = 0; i < this.details.length; i++) {
                         var tax = this.details[i].taxe * this.details[i].quantity;
                         this.details[i].subtotal = parseFloat(
-                            this.details[i].quantity * this.details[i].Net_price + tax
+                           ( (this.details[i].quantity * this.details[i].Net_price) - this.details[i].DiscountNet) + tax
                         );
                         this.total = parseFloat(this.total + this.details[i].subtotal);
                     }
