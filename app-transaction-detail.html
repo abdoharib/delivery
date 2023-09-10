@@ -120,11 +120,12 @@
                         <li class="px-4">
                             <strong>الهاتف الأحتياطي</strong>
                             <div></div>
-                            <a :href=" 'tel:'+order.sale.backup_phone" class="btn btn-dark fs-6 fw-bold p-2" style="box-shadow: 2px 2px 2px black;">
+                            <a v-if="order.sale.backup_phone" :href=" 'tel:'+order.sale.backup_phone" class="btn btn-dark fs-6 fw-bold p-2" style="box-shadow: 2px 2px 2px black;">
                                 
                                 <span class="m-1">{{order.sale.backup_phone}}</span>
                                 <ion-icon class="mr-3 pr-3" name="call"></ion-icon>
                             </a>
+                            <span v-else>/</span>
                         </li>
 
 
